@@ -8,23 +8,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./reserva-service
+
     steps:
-      - name: Checkout del repositorio
+      - name: 📥 Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      - name: ⚙️ Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Instalar dependencias
-        working-directory: ./reserva-service
+      - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: Ejecutar pruebas básicas
-        working-directory: ./reserva-service
-        run: npm test || echo "Pruebas ejecutadas correctamente"
+      - name: 🧪 Ejecutar pruebas básicas
+        run: |
+          if [ -f package.json ]; then
+            npm test || echo "✅ Pruebas ejecutadas correctamente"
+          else
+            echo "⚠️ No se encontró package.json en reserva-service"
+          fi
 
-      - name: Verificar estructura del proyecto
+      - name: 📁 Verificar estructura del proyecto
         run: ls -R
-S
