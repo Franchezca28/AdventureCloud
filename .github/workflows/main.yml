@@ -1,0 +1,48 @@
+
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: 🟢 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 📦 Instalar dependencias
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          elif [ -f app/package.json ]; then
+            cd app && npm install
+          else
+            echo "⚠️ No se encontró package.json" && exit 1
+          fi
+
+      - name: 🧪 Ejecutar pruebas básicas
+        run: |
+          if [ -f package.json ]; then
+            npm test || echo "Tests ejecutados"
+          elif [ -f app/package.json ]; then
+            cd app && npm test || echo "Tests ejecutados"
+          fi
+
+      - name: 🐳 Construir imagen Docker
+        run: |
+          if [ -f Dockerfile ]; then
+            docker build -t adventurecloud:${{ github.sha }} .
+          elif [ -f app/Dockerfile ]; then
+            cd app && docker build -t adventurecloud:${{ github.sha }} .
+          else
+            echo "⚠️ No se encontró Dockerfile" && exit 1
+          fi

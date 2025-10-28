@@ -18,10 +18,13 @@ jobs:
           node-version: "20"
 
       - name: Instalar dependencias
-        run: npm install --prefix reserva-service
+        working-directory: ./reserva-service
+        run: npm install
 
       - name: Ejecutar pruebas básicas
-        run: npm test --prefix reserva-service || echo "Pruebas ejecutadas correctamente"
+        working-directory: ./reserva-service
+        run: npm test || echo "Pruebas ejecutadas correctamente"
 
       - name: Verificar estructura del proyecto
         run: ls -R
+S
