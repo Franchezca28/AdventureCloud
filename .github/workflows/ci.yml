@@ -9,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧾 Clonar el repositorio
+      - name: Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: ⚙️ Configurar Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: 📦 Instalar dependencias
+      - name: Instalar dependencias
         run: npm install --prefix reserva-service
 
-      - name: 🧪 Ejecutar pruebas básicas
+      - name: Ejecutar pruebas básicas
         run: npm test --prefix reserva-service || echo "Pruebas básicas ejecutadas"
 
-      - name: 🐳 Construir imagen Docker
+      - name: Construir imagen Docker
         run: docker build -t adventurecloud:${{ github.sha }} .
