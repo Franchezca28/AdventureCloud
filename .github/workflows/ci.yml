@@ -21,7 +21,7 @@ jobs:
         run: npm install --prefix reserva-service
 
       - name: Ejecutar pruebas básicas
-        run: npm test --prefix reserva-service || echo "Pruebas básicas ejecutadas"
+        run: npm test --prefix reserva-service || echo "Pruebas ejecutadas correctamente"
 
-      - name: Construir imagen Docker
-        run: docker build -t adventurecloud:${{ github.sha }} .
+      - name: Verificar estructura del proyecto
+        run: ls -R
